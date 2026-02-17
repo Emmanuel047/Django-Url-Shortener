@@ -1,20 +1,32 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
-    </head>
-    <body>
-        <h2>Welcome to the url Shortener</h2>
-        <form method = "get" action = "create/">
-            <label for="link">Enter Link<label><br>
-                <input type="url" name="link" required></input>
-                <button type="submit" name="submit">Submit</button>
+<head>
+    <meta charset="utf-8">
+    <title>URL Shortener</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>🔗 URL Shortener</h1>
+        
+        <form method="post">
+            {% csrf_token %}
+            <input type="url" name="link" placeholder="https://example.com" required>
+            <button type="submit">Shorten URL</button>
         </form>
-        <script src="" async defer></script>
-    </body>
+
+        {% if form_error %}
+            <div class="error">{{ form_error }}</div>
+        {% endif %}
+
+        {% if success %}
+            <div class="success">
+                <strong>{{ success|safe }}</strong>
+                <br><br>
+                <a href="/{{ short_code }}/stats/" target="_blank" class="stats-link">📊 View Stats</a>
+            </div>
+        {% endif %}
+    </div>
+</body>
 </html>
